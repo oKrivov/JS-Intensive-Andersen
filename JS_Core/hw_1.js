@@ -20,7 +20,7 @@ function sumAndQuotientOfTwoNumbers() {
 	const valueIsNanOrEmpty = value1 === '' || value2 === '' || isNaN(value1) || isNaN(value2);
 
 	if (valueIsNanOrEmpty || value2 === 0) {
-		return console.log('Некорректный ввод!');
+	  return console.log('Некорректный ввод!');
 	} 
 	
 	return console.log(`Ответ: ${value1 + value2}, ${(value1 / value2)}`);
