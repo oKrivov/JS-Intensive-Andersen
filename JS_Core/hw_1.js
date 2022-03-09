@@ -17,7 +17,8 @@ function conversionOfNumberSystem() {
 function sumAndQuotientOfTwoNumbers() {
   const value1 = +prompt().trim();
   const value2 = +prompt().trim();
-  const valueIsNanOrEmpty = value1 === '' || value2 === '' || isNaN(value1) || isNaN(value2); 
+  const valueIsNanOrEmpty = value1 === '' || value2 === '' || isNaN(value1) || isNaN(value2);
+
   if (valueIsNanOrEmpty || value2 === 0) {
     return console.log('Некорректный ввод!');
   }
