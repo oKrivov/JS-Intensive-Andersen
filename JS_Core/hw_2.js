@@ -48,7 +48,6 @@ function selectFromInterval(array, from, to) {
   if (!Array.isArray(array)) {
     throw myError;
   }
-
   if (from > to) {
     [from, to] = [to, from];
   }
@@ -64,32 +63,29 @@ function selectFromInterval(array, from, to) {
   return intervalArray;
 }
 
-const myIterable = { from: 1, to: 4 };
+const myIterable = { from: 1, to: 3 };
 
-myIterable[Symbol.iterator] = function () {
+
+myIterable[Symbol.iterator] = function() {
+  let current = this.from;
+  const last = this.to;
+  const valuesIsNotValid =
+        isNaN(current) ||
+        typeof current !== "number" ||
+        isNaN(last) ||
+        typeof last !== "number";
+
+  if (valuesIsNotValid || current > last) {
+    throw new Error(`Ошибка!`);
+  }
+
   return {
-    current: this.from,
-    last: this.to,
-
     next() {
-      const valuesIsNotValid =
-        isNaN(this.current) ||
-        typeof this.current !== "number" ||
-        isNaN(this.last) ||
-        typeof this.last !== "number";
-
-      if (valuesIsNotValid || this.current > this.last) {
-        throw new Error(`Ошибка!`);
-      }
-      if (this.current <= this.last) {
-        return { done: false, value: this.current++ };
+      if (current <= last) {
+        return { done: false, value: current++ };
       } else {
         return { done: true };
       }
     },
   };
 };
-
-for (let i of myIterable) {
-  console.log(i);
-}
