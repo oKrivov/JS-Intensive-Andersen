@@ -70,10 +70,10 @@ myIterable[Symbol.iterator] = function() {
   let current = this.from;
   const last = this.to;
   const valuesIsNotValid =
-        isNaN(current) ||
-        typeof current !== "number" ||
-        isNaN(last) ||
-        typeof last !== "number";
+    isNaN(current) ||
+    typeof current !== "number" ||
+    isNaN(last) ||
+    typeof last !== "number";
 
   if (valuesIsNotValid || current > last) {
     throw new Error(`Ошибка!`);
