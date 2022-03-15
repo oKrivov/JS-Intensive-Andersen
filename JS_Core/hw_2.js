@@ -11,7 +11,7 @@ const person = {
   },
   func: function () {},
 };
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const arr = [1, [2, 3], 4, 5, 6, 7, 8, 9];
 
 function makeObjectDeepCopy(obj) {
   const clone = {};
@@ -32,13 +32,14 @@ function makeObjectDeepCopy(obj) {
 function makeArrayDeepCopy(array) {
   const cloneArray = [];
 
-  for (let i = 0; i < array.length; i++) {
-    if (Array.isArray(array[i])) {
-      cloneArray[i] = makeArrayDeepCopy(array[i]);
+  array.forEach((item, index) => {
+    if (Array.isArray(item)) {
+      cloneArray[index] = makeArrayDeepCopy(item);
     } else {
-      cloneArray[i] = array[i];
+      cloneArray[index] = item;
     }
-  }
+  })
+
   return cloneArray;
 }
 
@@ -65,7 +66,6 @@ function selectFromInterval(array, from, to) {
 
 const myIterable = { from: 1, to: 3 };
 
-
 myIterable[Symbol.iterator] = function() {
   let current = this.from;
   const last = this.to;
@@ -83,9 +83,13 @@ myIterable[Symbol.iterator] = function() {
     next() {
       if (current <= last) {
         return { done: false, value: current++ };
-      } else {
-        return { done: true };
       }
+      
+      return { done: true };
     },
   };
 };
+
+for(let i of myIterable) {
+  console.log(i);
+}
