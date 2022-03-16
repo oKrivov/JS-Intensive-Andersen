@@ -1,5 +1,5 @@
 
-const arr = [1,3, 45, 33, 55, 213]
+const arr = [1, 3, 45, 33, 55, 213];
 const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
 
 Array.prototype.myFilter = function(callbackFunc) {
@@ -14,7 +14,26 @@ Array.prototype.myFilter = function(callbackFunc) {
   return newArray;
 }
 
-const filtArr = words.myFilter((item) => item.length < 6)
 
-console.log(filtArr);
-console.log(words.filter((item) => item.length < 6));
+Array.prototype.myReduce = function(callbackFunc, initialValue) {
+  let result = null;
+
+  if (initialValue) {
+    result = initialValue;
+
+    this.forEach((item) => {
+      result = callbackFunc(result, item);
+    });
+  } else {
+    this.forEach((item) => {
+      result = callbackFunc(result, item);
+    });
+  }
+
+  return result;
+};
+
+console.log(arr.myReduce((a, b) => {
+  return a + b
+}));
+
