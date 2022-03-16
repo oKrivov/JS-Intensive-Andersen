@@ -32,8 +32,3 @@ Array.prototype.myReduce = function(callbackFunc, initialValue) {
 
   return result;
 };
-
-console.log(arr.myReduce((a, b) => {
-  return a + b
-}));
-
