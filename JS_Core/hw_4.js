@@ -2,8 +2,8 @@ const curry = (fn) => {
   let s;
   const next = (...args) => {
     return (x, separator) => {
-      if(typeof separator === 'string') {
-        s = separator
+      if (typeof separator === 'string') {
+        s = separator;
       } 
       if (typeof x !== 'string') {
         return args.reduce((acc, a) => {
@@ -23,8 +23,6 @@ const curry = (fn) => {
 };
 
 const concatStrings = curry((x, y) => x + y);
-
-// console.log(concatStrings('first', ' ')('second')('third')('123n')());
 
 
 
