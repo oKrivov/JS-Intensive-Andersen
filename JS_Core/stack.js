@@ -11,66 +11,98 @@ Object.prototype.isNumber = function(val) {
   return val;
 }
 
+class LinkedListNode {
+  constructor(value, next = null, prev = null) {
+    this.value = value;
+    this.next = next;
+    this.prev = prev;
+  }
+}
+
 class Stack {
-  
   constructor(maxEl = 10) {
     this.maxEl = isNumber(maxEl);
-    this.items = [];
+    this.lastElem = null;
     this.count = 0;
   }
 
-  static fromIterable([...iterable]) {
+  static fromIterable(iterable) {
     const newStack = new this();
 
-    if (!(Symbol.iterator in iterable)) {
+    if (!(Symbol.iterator in Object(iterable))) {
       throw new Error('Not iterable');
     };
 
-    newStack.maxEl = iterable.length;
-    newStack.count = iterable.length;
-    newStack.items = iterable;
+    this.iterable = [...iterable];
+    newStack.maxEl = this.iterable.length;
+
+    for (let i = 0; i < newStack.maxEl; i++) {
+      newStack.push(this.iterable[i]);
+    }
 
     return newStack;
   }
 
-  push(element) {
-    this.items.length = this.maxEl;
+  push(value) {
+    const newNode = new LinkedListNode(value);
 
-    if (this.count + 1 <= this.maxEl) {
-      this.items[this.count] = element;
-      this.count++;
-  
-      return this.count - 1;
+    if (this.count + 1 > this.maxEl) {
+      throw new Error('Stack is full!');
     }
 
-    return;
+    this.count++;
+
+    if (!this.lastElem) {
+      this.lastElem = newNode;
+
+      return this;
+    }
+  
+    this.lastElem.next = newNode;
+    newNode.prev = this.lastElem;
+    this.lastElem = newNode;
+
+    return this;
   }
+
   pop() {
     if (this.count === 0) {
-      throw new Error('Stack is empty');
+      throw new Error('Stack is empty!');
     }
 
-    let deleteItem = this.items[this.count - 1];
+    const deleteElem = this.lastElem;
+
+    if (this.count === 1) {
+      this.lastElem = null;
+    } else {
+      this.lastElem.prev.next = null;
+      this.lastElem = this.lastElem.prev;
+    }
+
     this.count--;
 
-    return deleteItem;
+    return deleteElem;
   }
+
   peek() {
-    return this.count === 0 ? null : this.items[this.count - 1];
+    return this.lastElem;
   }
+
   isEmpty() {
     return this.count === 0;
   }
+
   toArray() {
     let newArray = [];
+    let currentValue = this.lastElem;
 
-    for (let i = 0; i < this.count; i++) {
-      newArray[i] = this.items[i];
+    for (let i = this.count; i > 0; i--) {
+      newArray[i - 1] = currentValue.value;
+      currentValue = currentValue.prev;
     }
 
     return newArray;
   }
 }
 
-
-module.exports = { Stack };
+// module.exports = { Stack };
